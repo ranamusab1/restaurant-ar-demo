@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Palace - AR Restaurant Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <h1><i class="fas fa-utensils"></i> Food Palace</h1>
+            <p>Experience your food in Augmented Reality</p>
+        </div>
+        <div class="ar-badge">
+            <span>AR Menu Available</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h2>See Before You Order!</h2>
+            <p>View dishes in 3D on your table using AR. No app required!</p>
+            <button class="demo-btn" onclick="openAR('demo')">
+                <i class="fas fa-cube"></i> Try AR Demo
+            </button>
+        </div>
+        <div class="hero-image">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Food AR Demo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu">
+        <h2><i class="fas fa-concierge-bell"></i> Our Special Dishes</h2>
+        
+        <div class="dishes">
+            <!-- Dish 1 -->
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Chicken Biryani">
+                </div>
+                <div class="dish-info">
+                    <h3>Chicken Biryani</h3>
+                    <p>Traditional Hyderabadi biryani with aromatic spices and tender chicken</p>
+                    <div class="price-ar">
+                        <span class="price">Rs. 650</span>
+                        <button class="ar-btn" onclick="openAR('biryani')">
+                            <i class="fas fa-eye"></i> View in AR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dish 2 -->
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Seekh Kebab">
+                </div>
+                <div class="dish-info">
+                    <h3>Seekh Kebab</h3>
+                    <p>Grilled minced meat kebabs with special spices</p>
+                    <div class="price-ar">
+                        <span class="price">Rs. 450</span>
+                        <button class="ar-btn" onclick="openAR('kebab')">
+                            <i class="fas fa-eye"></i> View in AR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dish 3 -->
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Butter Chicken">
+                </div>
+                <div class="dish-info">
+                    <h3>Butter Chicken</h3>
+                    <p>Creamy tomato curry with tender chicken pieces</p>
+                    <div class="price-ar">
+                        <span class="price">Rs. 750</span>
+                        <button class="ar-btn" onclick="openAR('butter-chicken')">
+                            <i class="fas fa-eye"></i> View in AR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2><i class="fas fa-play-circle"></i> How to Use AR Menu</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Click "View in AR"</h3>
+                <p>Select any dish you want to see</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Allow Camera</h3>
+                <p>Give permission to access your camera</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Point at Table</h3>
+                <p>Aim your phone at a flat surface</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>See Magic!</h3>
+                <p>Food appears in 3D on your table</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions -->
+    <section class="instructions">
+        <div class="instruction-box">
+            <h3><i class="fas fa-info-circle"></i> Important Note:</h3>
+            <p>For AR to work, you need to print this marker or show it on another device:</p>
+            <div class="marker-container">
+                <img src="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" alt="AR Marker" class="ar-marker">
+                <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" download class="download-btn">
+                    <i class="fas fa-download"></i> Download Marker
+                </a>
+            </div>
+            <p class="small">Point your camera at this marker to see 3D food</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>AR Restaurant Menu Demo | Created with AR.js | No App Required</p>
+        <p class="demo-note">This is a demo for testing purposes</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function openAR(dish) {
+            // Save selected dish
+            localStorage.setItem('selectedDish', dish);
+            
+            // Open AR page
+            window.open('ar.html', '_blank');
+            
+            // For demo purposes
+            console.log('Opening AR for:', dish);
+        }
+        
+        // Demo alert
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('AR Restaurant Menu Loaded!');
+            console.log('Test on mobile for best experience');
+        });
+    </script>
+</body>
+</html>
