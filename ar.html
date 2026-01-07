@@ -211,61 +211,95 @@
 
     <!-- JavaScript -->
     <script>
-        // Hide instructions after 10 seconds
-        setTimeout(hideInstructions, 10000);
-        
-        function hideInstructions() {
-            document.getElementById('instructions').style.display = 'none';
-        }
-        
-        // Get dish from localStorage
+        // --- NAYA CODE: SAFE INITIALIZATION ---
         let selectedDish = localStorage.getItem('selectedDish') || 'biryani';
+        let dishElementsLoaded = false; // Flag to track if 3D elements are ready
         
-        // Function to change dish
+        // Function to change dish - NOW SAFE
         function changeDish(dishName) {
-            // Hide all dishes
-            document.getElementById('biryani').setAttribute('visible', 'false');
-            document.getElementById('kebab').setAttribute('visible', 'false');
-            document.getElementById('butter-chicken').setAttribute('visible', 'false');
+            // Check if elements are available before trying to change
+            if (!dishElementsLoaded) {
+                console.warn('3D Dish elements are not loaded yet. Please try again in a moment.');
+                return; // Exit the function if not ready
+            }
             
-            // Show selected dish
-            document.getElementById(dishName).setAttribute('visible', 'true');
-            selectedDish = dishName;
-        }
-        
-        // Initialize with selected dish
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                changeDish(selectedDish);
-            }, 1000);
+            // All dish IDs to hide
+            const dishIds = ['biryani', 'kebab', 'butter-chicken'];
             
-            // Show marker detection status
-            const marker = document.getElementById('marker');
-            marker.addEventListener('markerFound', () => {
-                console.log('Marker found!');
-            });
-            
-            marker.addEventListener('markerLost', () => {
-                console.log('Marker lost');
-            });
-        });
-        
-        // Fullscreen toggle
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
+            // Hide all dishes first
+            dishIds.forEach(id => {
+                const dishElement = document.getElementById(id);
+                if (dishElement) {
+                    dishElement.setAttribute('visible', 'false');
+                } else {
+                    console.error(`Dish element with ID '${id}' not found!`);
                 }
+            });
+            
+            // Show the selected dish
+            const selectedElement = document.getElementById(dishName);
+            if (selectedElement) {
+                selectedElement.setAttribute('visible', 'true');
+                console.log(`Now showing: ${dishName}`);
+                selectedDish = dishName;
+            } else {
+                console.error(`Selected dish '${dishName}' not found!`);
             }
         }
         
-        // Instructions show/hide
+        // Function to check if all dish elements exist in the DOM
+        function checkIfDishElementsExist() {
+            const requiredIds = ['biryani', 'kebab', 'butter-chicken', 'marker'];
+            const allExist = requiredIds.every(id => document.getElementById(id) !== null);
+            
+            if (allExist) {
+                dishElementsLoaded = true;
+                console.log('All 3D dish elements are now loaded and ready.');
+                // Now it's safe to show the initial dish
+                changeDish(selectedDish);
+            } else {
+                // If not ready yet, check again in 100ms
+                setTimeout(checkIfDishElementsExist, 100);
+            }
+        }
+        
+        // --- EVENT LISTENERS ---
+        // Wait for the entire page (including A-Frame elements) to load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded. Checking for 3D elements...');
+            checkIfDishElementsExist(); // Start checking for 3D elements
+        });
+        
+        // Listen for when the AR marker is found (optional visual feedback)
+        document.addEventListener('DOMContentLoaded', function() {
+            const marker = document.getElementById('marker');
+            if (marker) {
+                marker.addEventListener('markerFound', () => {
+                    console.log('Marker detected! If dish is not visible, try pressing a dish button.');
+                });
+            }
+        });
+        
+        // Hide instructions after 10 seconds
+        setTimeout(() => {
+            const instructions = document.getElementById('instructions');
+            if (instructions) instructions.style.display = 'none';
+        }, 10000);
+        
+        // Fullscreen toggle and key controls remain the same
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
         document.addEventListener('keydown', function(e) {
             if (e.key === 'i' || e.key === 'I') {
                 const instructions = document.getElementById('instructions');
-                instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
+                if (instructions) {
+                    instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
+                }
             }
         });
     </script>
