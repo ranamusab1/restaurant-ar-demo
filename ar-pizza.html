@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Burger View</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; overflow: hidden; font-family: Arial, sans-serif; }
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    #back-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #back-btn:hover { background: rgba(0,0,0,0.9); }
+  </style>
+</head>
+<body>
+
+  <model-viewer 
+    src="models/pizza.glb" 
+    ar 
+    ar-modes="webxr scene-viewer quick-look" 
+    camera-controls 
+    touch-action="pan-y" 
+    auto-rotate 
+    shadow-intensity="1" 
+    alt="Chicken Burger in AR"
+  >
+    <!-- Ye custom AR button optional hai, default bhi acha hai -->
+    <!-- <button slot="ar-button" style="background: white; color: #4285f4; border: 1px solid #4285f4; padding: 10px 20px; border-radius: 30px; font-weight: bold;">View in AR</button> -->
+  </model-viewer>
+
+  <button id="back-btn" onclick="history.back()">← Back to Menu</button>
+
+</body>
+</html>
